@@ -1,5 +1,4 @@
 
-library(ggplot2)
 
 # --- 
 
@@ -12,7 +11,7 @@ LoadToEnvironment <- function(RData, env = new.env()){
 
 get_timeSeries_byClicking <- function(toPlot, df){
   
-  toPlot=toPlot; df=ndvi
+  # toPlot=toPlot; df=ndvi
   
   nRow <- length(unlist(toPlot)) / 2
   
