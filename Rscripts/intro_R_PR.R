@@ -66,6 +66,10 @@ read.csv()
 DIRS <- list.dirs(path = getwd(),
                   recursive = FALSE)
 
+# --- si has clonado el repositorio mobar.git
+data_DIR <- dir(path=DIRS[3], full.names = TRUE)
+
+# --- si descargaste archivos del Drive
 data_DIR <- dir(path=DIRS[2], full.names = TRUE)
 
 # --- TIF
@@ -264,7 +268,4 @@ usv_SHP_LP_utm <- spTransform(x = usv_SHP_LP, CRSobj = crs(b3_SHP))
 
 plot(b3_SHP)
 plot(usv_SHP_LP_utm, add=TRUE, border="blue")
-
-
-
 
