@@ -52,11 +52,11 @@ legend("topright", col=c("blue", "red"),
 
 # ---
 
-pixels_df <- data.frame(year=rep(unlist(sapply(2003:2016, function(s) rep(s,23))),
-                                  2),
-                        type=c(rep("NDVI", length(pixel_ndvi$ts)), 
-                               rep("NBR", length(pixel_nbr$ts))),
-                        value=c(pixel_ndvi_ts, pixel_nbr_ts))
+# pixels_df <- data.frame(year=rep(unlist(sapply(2003:2016, function(s) rep(s,23))),
+#                                   2),
+#                         type=c(rep("NDVI", length(pixel_ndvi$ts)), 
+#                                rep("NBR", length(pixel_nbr$ts))),
+#                         value=c(pixel_ndvi_ts, pixel_nbr_ts))
 
 
 pixels_df <- data.frame(year=rep(seq(2003,2016, length=23*14),
