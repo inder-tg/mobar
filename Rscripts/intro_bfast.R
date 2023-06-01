@@ -1,11 +1,23 @@
 
-# ---
+# -----------------------------------------------------------------------------
+#
+# Elaborado por Inder Tecuapetla, May 31, 2023
+#
+# Introducción a la identificación automatizada de áreas quemadas
+# con garantías estadísticas basadas en BFAST.
+# 
+# Hecho para SELPER/CEOS Working Group Chapter D Training Group
+#
+# -----------------------------------------------------------------------------
+
+
+# --- PREAMBULO ---
 library(ggplot2)
 library(bfast)
 
 source( paste0( getwd(), "/Rscripts/auxFUN.R" ) )
 
-# ---
+# --- CARGA DE DATOS ----
 
 pathRData <- paste0( getwd(), "/RData" )
 
@@ -13,12 +25,10 @@ RDataFILES <- list.files( path = pathRData,
                           pattern = ".RData", 
                           full.names = TRUE )
 
-# ---
-
 nbr <- LoadToEnvironment(RDataFILES[2])$nbr_trun
 ndvi <- LoadToEnvironment(RDataFILES[3])$ndvi_trun
 
-# ---
+# --- EJEMPLO
 
 toPlot <- list()
 
@@ -45,12 +55,14 @@ pixel_nbr_ts <- ts(as.numeric(pixel_nbr$ts),
 
 plot(pixel_nbr_ts, ylab="NBR", main="NBR (formato INT2S)")
 
+# --- ndvi y nbr juntos usando ts.plot
+
 ts.plot(pixel_ndvi_ts, pixel_nbr_ts, col = c("blue", "red")) 
 legend("topright", col=c("blue", "red"), 
        lty=rep(1,2), bty="n",
        legend=c("NDVI", "NBR"))
 
-# ---
+# --- ndvi y nbr juntos utilizando ggplot
 
 pixels_df <- data.frame(year=rep(seq(2003, 2016, length=23*14),
                                  2),
@@ -64,8 +76,7 @@ ggplot(pixels_df,
            col = type)) +
   geom_line()
 
-
-# ---
+# --- CÓMO usar bfast
 
 pixel_ndvi_bfast <- bfast(pixel_ndvi_ts,
                           # h = 23/322,
@@ -75,7 +86,7 @@ pixel_ndvi_bfast <- bfast(pixel_ndvi_ts,
 
 plot(pixel_ndvi_bfast)
 
-# ---
+# --- EXTRACCION de objetos de interés de pixel_ndvi_bfast
 
 n_iter <- length(pixel_ndvi_bfast$output)
 
@@ -93,7 +104,6 @@ sev_df <- data.frame(breaks=bps, years=bps_years,
                      dNBR=pixel_dNBR_dNDVI$dNBR, 
                      vegetationChange=pixel_vegCondition)
 
-
 sev_df
 
 years <- 2003:2016
@@ -104,16 +114,7 @@ dNBR_where[(1:14)[which(cpsNDVI_where == 1)]] <- sev_df$dNBR
 
 cbind(years, cpsNDVI_where, dNBR_where)
 
-# ---
+# --- PLOT ndvi, dnbr y cps
 
 plot_ndvi_nbr_cps(ndvi=pixel_ndvi, nbr=pixel_nbr, 
                   ndvi_bfast=pixel_ndvi_bfast)
-
-  
-
-
-
-
-
-
-

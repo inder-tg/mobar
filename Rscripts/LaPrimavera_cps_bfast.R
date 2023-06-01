@@ -5,6 +5,8 @@
 # ---   rTp_nbr_spline_trun_CELL_4.RData
 # ---   rTp_ndvi_trun_CELL_4.RData
 
+# --- PREAMBULO
+
 library(RColorBrewer)
 library(raster)
 library(geoTS)
@@ -14,14 +16,13 @@ library(dplyr)
 library(mapview)
 library(gtools)
 
-# --- Descomente las 3 líneas de abajo si desea aplicar
+source(paste0(getwd(), "/Rscripts/auxFUN.R"))
+
+# --- Descomente las líneas de abajo si desea aplicar
 # --- este análisis al DATASET (La Primavera) desde su sistema
 # library(bfast)
 # library(foreach)
 # library(doParallel)
-# ---------------------------------------------------------------
-
-source(paste0(getwd(), "/Rscripts/auxFUN.R"))
 
 # ---
 
@@ -124,7 +125,9 @@ years <- 2003:2016
 # save(cps_YEARS, file=paste0(getwd(),"/RData/YEARS_CELL_4.RData"))
 # save(cps_dNBR, file=paste0(getwd(),"/RData/dNBR_CELL_4.RData"))
 
-# --- RASTERIZACION
+# =====================
+# --- RASTERIZACION ---
+# =====================
 
 # --- La línea de abajo puede omitirse si se ha hecho el análisis en su sistema,
 # --- i.e. si el objeto cps_YEARS ya existe en su sesión de R
@@ -154,13 +157,15 @@ for(i in 3:ncol(cps_YEARS)){
 
 map_YEARS
 
-# --- visualization
+# =====================
+# --- VISUALIZATION ---
+# =====================
 
 levelplot(map_YEARS,
           main="Abrupt changes",
           names.attr=as.character(2003:2016))
 
-# ---
+# --- % DE CPS PER AÑO
 
 LaPrimavera_rTp <- rasterToPoints(subset(map_YEARS,1))
 
@@ -200,7 +205,6 @@ CHANGES_DATA %>%
 # --- i.e. si el objeto cps_dNBR ya existe en su sesión de R
 cps_dNBR <- LoadToEnvironment( paste0(getwd(),"/RData/dNBR_CELL_4.RData") )$cps_dNBR
 
-
 shp_FILES <- list.files(path = DIRS[3],
                         pattern = ".shp",
                         full.names = TRUE)
@@ -223,7 +227,6 @@ for(i in 3:ncol(cps_dNBR)){
               datatype = "FLT4S",
               overwrite = TRUE)
 }
-
 
 tifFILES <- mixedsort(list.files(path = paste0( getwd(), "/TIF" ),
                      pattern = ".tif",
@@ -259,14 +262,4 @@ mapsev2005
 mapsev2008
 
 mapsev2012
-
-
-
-
-
-
-
-
-
-
 

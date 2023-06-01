@@ -1,4 +1,14 @@
 
+# -----------------------------------------------------------------------------
+#
+# Elaborado por Inder Tecuapetla, May 31, 2023
+#
+# Funciones auxiliares
+# 
+# Hecho para SELPER/CEOS Working Group Chapter D Training Group
+#
+# -----------------------------------------------------------------------------
+
 
 # --- 
 
