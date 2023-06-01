@@ -96,6 +96,10 @@ sev_df <- data.frame(breaks=bps, years=bps_years,
 
 sev_df
 
+years <- 2003:2016
+
+as.numeric( years %in% bps_years )
+
 # ---
 
 plot_ndvi_nbr_cps(ndvi=pixel_ndvi, nbr=pixel_nbr, ndvi_bfast=pixel_ndvi_bfast)

@@ -154,3 +154,67 @@ vegCondition <- function(x){
                               ifelse(x < 0.66, "Moderate-severity", "High-severity")))))
   
 }
+
+# ---
+
+get_SEVmap <- function(path, nameLayer){
+  
+  # path=tifDIR[5]
+  # nameLayer = "2005"
+  
+  r <- raster(path) #raster(paste0(pathSeverityMaps, "/severityMap_0p15_", YEAR, ".tif"))
+  
+  r2 <- reclassify(r, c(-0.1,0.1,NA))
+  
+  df_r2 <- rasterToPoints(r2)
+  
+  datos <- matrix(NA, nrow = nrow(df_r2), ncol = 1)
+  LONG <- matrix(NA, nrow = nrow(df_r2), ncol = 1)
+  LAT <- matrix(NA, nrow = nrow(df_r2), ncol = 1)
+  DIAMETER <- matrix(NA, nrow = nrow(df_r2), ncol = 1)
+  
+  MIN <- min(df_r2[,3])
+  MAX <- max(df_r2[,3])
+  for(i in 1:nrow(datos)){
+    datos[[i]] <- df_r2[i,3]
+    LONG[[i]] <- paste0("X: ", df_r2[i,1])
+    LAT[[i]] <- paste0("Y: ", df_r2[i,2])
+    DIAMETER[[i]] <- ((df_r2[i,3] - MIN)/(MAX-MIN))^20
+  }
+  #
+  TEST <- data.frame(x = df_r2[,1], y = df_r2[,2], 
+                     dNBR = datos, X = LONG, Y = LAT, 
+                     diam = DIAMETER)
+  TEST$X <- unlist(lapply(TEST$X, as.character))
+  TEST$Y <- unlist(lapply(TEST$Y, as.character))
+  coordinates(TEST) <- ~ x + y
+  proj4string(TEST) <- "+proj=utm +zone=13 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  
+  myColorPal <- c("darkgreen", "palegreen4", "#CFE6B8", #"darkseagreen2", 
+                  "gold", "orange", "firebrick1")
+  
+  myPal <- colorRampPalette(colors = myColorPal, alpha = TRUE)
+  
+  mp_severity <- mapview(TEST, legend = TRUE, 
+                         layer.name = nameLayer,
+                         col.regions = myPal(256),
+                         na.color = "transparent", alpha = 0,
+                         zcol = "dNBR", cex = "diam",
+                         at = c(-1,-0.25,-0.1,0.1,0.27,0.66,1))
+  
+  mp_severity@map$x$calls[[11]]$args[[1]]$labels <- c("High regrowth",
+                                                      "Low regrowth",
+                                                      "Unburned",
+                                                      "Low severity",
+                                                      "Moderate severity",
+                                                      "High severity")
+  
+  mp_severity@map$x$calls[[11]]$args[[1]]$na_label <- c("")
+  
+  mp_severity@map
+}
+
+
+
+
+
