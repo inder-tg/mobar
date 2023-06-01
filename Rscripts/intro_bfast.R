@@ -15,8 +15,8 @@ RDataFILES <- list.files( path = pathRData,
 
 # ---
 
-nbr <- LoadToEnvironment(RDataFILES[1])$nbr_trun
-ndvi <- LoadToEnvironment(RDataFILES[2])$ndvi_trun
+nbr <- LoadToEnvironment(RDataFILES[2])$nbr_trun
+ndvi <- LoadToEnvironment(RDataFILES[3])$ndvi_trun
 
 # ---
 
@@ -98,11 +98,16 @@ sev_df
 
 years <- 2003:2016
 
-as.numeric( years %in% bps_years )
+cpsNDVI_where <- as.numeric( years %in% bps_years )
+dNBR_where <- numeric(length(years))
+dNBR_where[(1:14)[which(cpsNDVI_where == 1)]] <- sev_df$dNBR
+
+cbind(years, cpsNDVI_where, dNBR_where)
 
 # ---
 
-plot_ndvi_nbr_cps(ndvi=pixel_ndvi, nbr=pixel_nbr, ndvi_bfast=pixel_ndvi_bfast)
+plot_ndvi_nbr_cps(ndvi=pixel_ndvi, nbr=pixel_nbr, 
+                  ndvi_bfast=pixel_ndvi_bfast)
 
   
 

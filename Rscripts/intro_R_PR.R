@@ -34,7 +34,7 @@ numeros <- 1:40
 # LISTA: un objeto para contenerlos a todos #
 # -------------------------------------------
 
-LISTA <- list(Prec, fit, numeros, "listas")
+LISTA <- list(Prec, numeros, "listas")
 
 LISTA; lista
 
@@ -56,8 +56,6 @@ str(numeros)
 getwd()
 
 paste0()
-
-read.csv()
 
 # -------------------------------
 # Lectura de archivos TIF y SHP #
@@ -133,10 +131,8 @@ writeRaster(stack_SHP,
             datatype = "INT2S",
             format = "GTiff")
 
-NAME_b3 <- strsplit(x=names(b3))
-
-save(b3_SHP_rTp, 
-     file = paste0( getwd(), "/RData/", names(b3), "_LP_points.RData" ))
+# save(b3_SHP_rTp, 
+#      file = paste0( getwd(), "/RData/", names(b3), "_LP_points.RData" ))
 
 # --- 
 
