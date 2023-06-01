@@ -14,7 +14,7 @@ library(dplyr)
 library(mapview)
 library(gtools)
 
-# --- Descomente las 3 líneas de abajo si desea aplaicar
+# --- Descomente las 3 líneas de abajo si desea aplicar
 # --- este análisis al DATASET (La Primavera) desde su sistema
 # library(bfast)
 # library(foreach)
@@ -25,16 +25,16 @@ source(paste0(getwd(), "/Rscripts/auxFUN.R"))
 
 # ---
 
-pathRData <- paste0( getwd(), "/RData" )
-
-RDataFILES <- list.files( path = pathRData,
-                          pattern = ".RData", 
-                          full.names = TRUE )
+# pathRData <- paste0( getwd(), "/RData" )
+# 
+# RDataFILES <- list.files( path = pathRData,
+#                           pattern = ".RData", 
+#                           full.names = TRUE )
 
 # ---
 
-nbr <- LoadToEnvironment(RDataFILES[1])$nbr_trun
-ndvi <- LoadToEnvironment(RDataFILES[2])$ndvi_trun
+# nbr <- LoadToEnvironment(RDataFILES[2])$nbr_trun
+# ndvi <- LoadToEnvironment(RDataFILES[3])$ndvi_trun
 
 # --- 
 
@@ -194,7 +194,7 @@ CHANGES_DATA %>%
         legend.position="none") +
   xlab("") + ylab("%")
 
-# --- Visualization SEVERITY map as a leaftlet
+# --- Visualization SEVERITY map with mapview
 
 # --- La línea de abajo puede omitirse si se ha hecho el análisis en su sistema,
 # --- i.e. si el objeto cps_dNBR ya existe en su sesión de R
@@ -229,12 +229,17 @@ tifFILES <- mixedsort(list.files(path = paste0( getwd(), "/TIF" ),
                      pattern = ".tif",
                      full.names = TRUE))
 
-xmlFILES <- mixedsort(list.files(path = paste0( getwd(), "/TIF" ),
-                                 pattern = ".xml",
-                                 full.names = TRUE))
+sevFILES <- tifFILES[-1]
 
+# --- Descomenta las lineas de abajo si en /TIF se produjeron
+# --- archivos.tif.aux.xml
 
-sevFILES <- tifFILES[-(1:length(tifFILES))[tifFILES %in% xmlFILES]]
+# xmlFILES <- mixedsort(list.files(path = paste0( getwd(), "/TIF" ),
+#                                  pattern = ".xml",
+#                                  full.names = TRUE))
+# 
+# tifFILES <- tifFILES[-1]
+# sevFILES <- tifFILES[-(1:length(tifFILES))[tifFILES %in% xmlFILES]]
 
 # ---
 

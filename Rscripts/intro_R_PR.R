@@ -126,8 +126,10 @@ nrow(b3_SHP_rTp) < nrow(b3_SHP) * ncol(b3_SHP)
 
 NAME <- strsplit(x=data_DIR[1], split="/")
 
+NOMBRE <- unlist(NAME[[1]])[length(NAME[[1]])]
+
 writeRaster(stack_SHP, 
-            filename = paste0( getwd(), "/TIF/", NAME[[1]][10], "_stack_LP" ),
+            filename = paste0( getwd(), "/TIF/", NOMBRE, "_stack_LP" ),
             datatype = "INT2S",
             format = "GTiff")
 
