@@ -21,6 +21,3 @@ if( length(packagesToInstall) ){
     install.packages(packagesToInstall[i], dependencies = TRUE)
   }
 } 
-
-
-

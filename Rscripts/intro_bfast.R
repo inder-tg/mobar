@@ -81,7 +81,7 @@ ggplot(pixels_df,
 pixel_ndvi_bfast <- bfast(pixel_ndvi_ts,
                           # h = 23/322,
                           h = 0.15,
-                          # breaks = 5,
+                          # breaks = 2,
                           season = "harmonic")
 
 plot(pixel_ndvi_bfast)

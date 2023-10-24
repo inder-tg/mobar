@@ -49,13 +49,10 @@ class(meses); length(meses); str(meses)
 
 str(numeros)
 
-# ------------------
-# IMPORTANDO datos #
-# ------------------
-
 getwd()
 
-paste0()
+?paste0
+# paste0()
 
 # -------------------------------
 # Lectura de archivos TIF y SHP #
@@ -215,11 +212,8 @@ ndvi_healthy_veg[ ndvi_healthy_veg < 0.4 ] <- NA
 
 plot(ndvi_healthy_veg, main = "Vegetation cover")
 
-par(mar = c(4.5, 5, 1.5, 2))
-plot(testVeg, main = "Vegetation cover (basic arithmetic)")
-
 calc_veg <- calc(ndvi_FUN, function(x){ x[x < 0.4] <- NA; x})
-plot(cal_veg, main = "Vegetation cover (calc)")
+plot(calc_veg, main = "Vegetation cover (calc)")
 
 compareRaster(calc_veg, ndvi_healthy_veg)
 
