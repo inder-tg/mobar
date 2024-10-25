@@ -7,6 +7,7 @@
 # Basado en el Cap. 2 de "Análisis espacial con R: Usa R como un Sistema de
 # Información Geográfica de Jean-Francois Mas (European Scientific Institute, Publishing)
 #
+# Actualizado en Oct 25, 2024 en correspondencia con el SELPER 2024
 # -----------------------------------------------------------------------------
 
 # ----------------

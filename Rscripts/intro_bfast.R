@@ -16,7 +16,7 @@
 library(ggplot2)
 library(bfast)
 
-source( paste0( getwd(), "/Rscripts/auxFUN.R" ) )
+source( "Rscripts/auxFUN.R" )
 
 # --- CARGA DE DATOS ----
 
@@ -39,9 +39,9 @@ toPlot[[2]] <- 2285070
 pixel_ndvi <- get_timeSeries_byClicking(toPlot = toPlot, df=ndvi)
 
 pixel_ndvi_ts <- ts(as.numeric(pixel_ndvi$ts), 
-               start = c(2003, 1), 
-               end = c(2016, 23),
-               frequency = 23)
+                    start = c(2003, 1), 
+                    end = c(2016, 23),
+                    frequency = 23)
 
 plot(pixel_ndvi_ts, ylab="NDVI", main="NDVI (formato INT2S)")
 
@@ -50,9 +50,9 @@ plot(pixel_ndvi_ts, ylab="NDVI", main="NDVI (formato INT2S)")
 pixel_nbr <- get_timeSeries_byClicking(toPlot = toPlot, df=nbr)
 
 pixel_nbr_ts <- ts(as.numeric(pixel_nbr$ts),
-                      start = c(2003, 1),
-                      end = c(2016, 23),
-                      frequency = 23)
+                   start = c(2003, 1),
+                   end = c(2016, 23),
+                   frequency = 23)
 
 plot(pixel_nbr_ts, ylab="NBR", main="NBR (formato INT2S)")
 
@@ -124,12 +124,8 @@ plot_ndvi_nbr_cps(ndvi=pixel_ndvi, nbr=pixel_nbr,
 
 pixel_bfast01 <- bfast01( data=pixel_ndvi_ts, bandwidth = 0.15 )
 
+par(mfrow=c(1,1))
 plot(pixel_bfast01)
 
-
 bfast01classify(pixel_bfast01)
-
-
-
-
 
