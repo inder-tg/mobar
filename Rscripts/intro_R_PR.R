@@ -24,6 +24,8 @@ library(mapview)
 library(geoTS)
 library(RColorBrewer)
 
+source("/Rscripts/auxFUN.R")
+
 # ------------------------------------------------------
 # Objetos en R: vector, matrix, dataframe, array, list #
 # ------------------------------------------------------
@@ -66,8 +68,8 @@ DIRS <- list.dirs(path = getwd(),
 # --- si has clonado el repositorio mobar.git
 data_DIR <- dir(path=DIRS[3], full.names = TRUE)
 
-# --- si descargaste archivos del Drive
-data_DIR <- dir(path=DIRS[2], full.names = TRUE)
+# # --- si descargaste archivos del Drive
+# data_DIR <- dir(path=DIRS[2], full.names = TRUE)
 
 # --- TIF
 
@@ -75,19 +77,13 @@ tif_FILES <- list.files( path = data_DIR[1],
                          pattern = ".tif$",
                          full.names = TRUE )
 
-# b3 <- raster(tif_FILES[1])
-
-# Landsat7_stack <- stack(tif_FILES)
-
 Landsat7_stack <- rast(tif_FILES)
 
 # --- SHP
 
 shp_FILES <- list.files(path = data_DIR[2],
-                        pattern = ".shp",
+                        pattern = ".shp$",
                         full.names = TRUE)
-
-# SHP_LP <- shapefile( shp_FILES[1] )
 
 SHP_LP <- read_sf( shp_FILES[1] )
 
@@ -98,20 +94,17 @@ SHP_LP <- read_sf( shp_FILES[1] )
 
 # --- PLOTS
 
-# plot(b3)
-
 plot(SHP_LP)
 
-plot(b3)
-plot(SHP_LP, add=TRUE, border="blue")
+plot(st_geometry(SHP_LP))
 
 plot(Landsat7_stack)
 
 plot(subset(Landsat7_stack, 3))
 lines(SHP_LP, col="blue", lty=2, lwd=2)
 
-
-mp <- mapview(b3)
+mp <- mapview(subset(Landsat7_stack,3))
+mp
 
 # --- MANEJO
 
