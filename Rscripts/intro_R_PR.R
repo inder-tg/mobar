@@ -24,7 +24,7 @@ library(mapview)
 library(geoTS)
 library(RColorBrewer)
 
-source("/Rscripts/auxFUN.R")
+source("Rscripts/auxFUN.R")
 
 # ------------------------------------------------------
 # Objetos en R: vector, matrix, dataframe, array, list #
@@ -68,19 +68,14 @@ DIRS <- list.dirs(path = getwd(),
 # --- si has clonado el repositorio mobar.git
 data_DIR <- dir(path=DIRS[3], full.names = TRUE)
 
-# # --- si descargaste archivos del Drive
-# data_DIR <- dir(path=DIRS[2], full.names = TRUE)
-
-# --- TIF
-
+# --- TIF files
 tif_FILES <- list.files( path = data_DIR[1],
                          pattern = ".tif$",
                          full.names = TRUE )
 
 Landsat7_stack <- rast(tif_FILES)
 
-# --- SHP
-
+# --- SHP files
 shp_FILES <- list.files(path = data_DIR[2],
                         pattern = ".shp$",
                         full.names = TRUE)
@@ -114,9 +109,9 @@ plot(stack_SHP)
 
 # --- EXTRACCION
 
-b3_SHP_rTp <- rasterToPoints(b3_SHP) 
+Landsat7_stck_rTp <- spRast_ValuesCoords(Landsat7_stack) 
 
-nrow(b3_SHP_rTp) < nrow(b3_SHP) * ncol(b3_SHP)
+str(Landsat7_stck_rTp)
 
 # --- EXPORTACION
 
@@ -125,11 +120,10 @@ NAME <- strsplit(x=data_DIR[1], split="/")
 NOMBRE <- unlist(NAME[[1]])[length(NAME[[1]])]
 
 writeRaster(stack_SHP, 
-            filename = paste0( getwd(), "/TIF/", NOMBRE, "_stack_LP" ),
-            datatype = "INT2S",
-            format = "GTiff")
+            filename = paste0( getwd(), "/TIF/", NOMBRE, "_stack_LP.tif" ),
+            datatype = "INT2S")
 
-# save(b3_SHP_rTp, 
+# save(Landsat7_stck_rTp, 
 #      file = paste0( getwd(), "/RData/", names(b3), "_LP_points.RData" ))
 
 # --- 
@@ -242,21 +236,25 @@ compareRaster(peak_recla, peakVeg)
 #                           4, 0.5, Inf, 5))
 # plot(vegc, col = rev(terrain.colors(4)), main = 'NDVI based thresholding')
 
-# ---
+# --- CAMBIAR proyección
 
 usv_shp_FILES <- list.files(path = data_DIR[3],
-                        pattern = ".shp",
-                        full.names = TRUE)
+                            pattern = ".shp$",
+                            full.names = TRUE)
 
-usv_SHP_LP <- shapefile( usv_shp_FILES[1] )
+usv_SHP_LP <- read_sf( usv_shp_FILES[1] )
 
 plot(usv_SHP_LP, border="blue")
 
-plot(b3_SHP)
-plot(usv_SHP_LP, add=TRUE, border="blue")
+plot(ndvi_FUN)
+lines(usv_SHP_LP, col="blue", lwd=3)
 
-usv_SHP_LP_utm <- spTransform(x = usv_SHP_LP, CRSobj = crs(b3_SHP))
+ndvi_FUN # mirar coord. ref.
+usv_SHP_LP # mirar Protectec CRS
 
-plot(b3_SHP)
-plot(usv_SHP_LP_utm, add=TRUE, border="blue")
+usv_SHP_LP_utm <- st_transform(x = usv_SHP_LP,
+                               crs = st_crs(ndvi_FUN) ) 
+
+plot(ndvi_FUN)
+lines(usv_SHP_LP_utm, col="blue", lwd=3)
 
