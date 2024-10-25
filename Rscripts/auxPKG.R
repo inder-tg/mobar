@@ -11,7 +11,7 @@
 
 neededPackages <- c("raster", "mapview", "geoTS", "RColorBrewer",
                     "rasterVis", "ggplot2", "dplyr", "gtools",
-                    "bfast")
+                    "bfast", "terra", "sf")
 
 packagesToInstall <- neededPackages[!(neededPackages %in% installed.packages()[,"Package"])]
 
