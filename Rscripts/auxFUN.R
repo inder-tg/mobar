@@ -224,6 +224,8 @@ get_SEVmap <- function(path, nameLayer){
   mp_severity@map
 }
 
+# ---
+
 
 
 

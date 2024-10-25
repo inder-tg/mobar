@@ -8,6 +8,7 @@
 # 
 # Hecho para SELPER/CEOS Working Group Chapter D Training Group
 #
+# Actualizado en Oct 25, 2024 en correspondencia con el SELPER 2024
 # -----------------------------------------------------------------------------
 
 
@@ -118,3 +119,17 @@ cbind(years, cpsNDVI_where, dNBR_where)
 
 plot_ndvi_nbr_cps(ndvi=pixel_ndvi, nbr=pixel_nbr, 
                   ndvi_bfast=pixel_ndvi_bfast)
+
+# --- bfast01 para evaluar recuperación/pérdida
+
+pixel_bfast01 <- bfast01( data=pixel_ndvi_ts, bandwidth = 0.15 )
+
+plot(pixel_bfast01)
+
+
+bfast01classify(pixel_bfast01)
+
+
+
+
+

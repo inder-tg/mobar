@@ -17,6 +17,8 @@
 # PREAMBULO #
 # -----------
 
+library(terra)
+library(sf)
 library(raster)
 library(mapview)
 library(geoTS)
@@ -70,12 +72,14 @@ data_DIR <- dir(path=DIRS[2], full.names = TRUE)
 # --- TIF
 
 tif_FILES <- list.files( path = data_DIR[1],
-                         pattern = ".tif",
+                         pattern = ".tif$",
                          full.names = TRUE )
 
-b3 <- raster(tif_FILES[1])
+# b3 <- raster(tif_FILES[1])
 
-Landsat7_stack <- stack(tif_FILES)
+# Landsat7_stack <- stack(tif_FILES)
+
+Landsat7_stack <- rast(tif_FILES)
 
 # --- SHP
 
@@ -83,7 +87,9 @@ shp_FILES <- list.files(path = data_DIR[2],
                         pattern = ".shp",
                         full.names = TRUE)
 
-SHP_LP <- shapefile( shp_FILES[1] )
+# SHP_LP <- shapefile( shp_FILES[1] )
+
+SHP_LP <- read_sf( shp_FILES[1] )
 
 # -------------------------------------------------
 # Funciones útiles para el manejo y visualización #
@@ -92,7 +98,7 @@ SHP_LP <- shapefile( shp_FILES[1] )
 
 # --- PLOTS
 
-plot(b3)
+# plot(b3)
 
 plot(SHP_LP)
 
@@ -101,15 +107,15 @@ plot(SHP_LP, add=TRUE, border="blue")
 
 plot(Landsat7_stack)
 
+plot(subset(Landsat7_stack, 3))
+lines(SHP_LP, col="blue", lty=2, lwd=2)
+
+
 mp <- mapview(b3)
 
 # --- MANEJO
 
-b3_SHP <- raster_intersect_sp(x=b3, y=SHP_LP)
-
-plot(b3_SHP)
-
-stack_SHP <- raster_intersect_sp(x=Landsat7_stack, y=SHP_LP)
+stack_SHP <- crop(x=Landsat7_stack, y=SHP_LP, mask=TRUE)
 
 plot(stack_SHP)
 
